@@ -9,12 +9,32 @@ import {
   Keyboard,
 } from "react-native";
 import { useNavigate } from "react-router-native";
+import axios from "axios";
+import { baseUrl, loginRoute, signupRoute } from "../ROUTES/index";
 import { useState } from "react";
 export default function Login() {
   const [email, setemail] = useState("");
   const [pass, setpass] = useState("");
   const [username, setusername] = useState("");
   const Navigate = useNavigate();
+  //-------------------------------/
+  const signup = () => {
+    axios
+      .post(baseUrl + signupRoute, { username, email, password: pass })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+  //----------this function is ready to be used later --------------//
+  // const logout = () => {
+  //   axios
+  //     .post(baseUrl + logoutRoute, { email })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.cont}>
@@ -47,8 +67,8 @@ export default function Login() {
           ></TextInput>
 
           <View style={styles.loginbtn}>
-            <TouchableOpacity style={styles.btn}>
-              <Text style={styles.btntext}>LOGIN</Text>
+            <TouchableOpacity onPress={() => signup()} style={styles.btn}>
+              <Text style={styles.btntext}>SIGNUP</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => Navigate("/")}
@@ -124,7 +144,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   imagecontainer: {
-    
     alignSelf: "center",
     display: "flex",
     justifyContent: "center",

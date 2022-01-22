@@ -5,15 +5,25 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Image,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import axios from "axios";
+import { baseUrl, loginRoute } from "../ROUTES/index";
 import { useState } from "react";
 export default function Login() {
   const [email, setemail] = useState("");
   const [pass, setpass] = useState("");
   const Navigate = useNavigate();
+  //-----------------------------------//
+  const login = () => {
+    axios
+      .post(baseUrl + loginRoute, { email, password: pass })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.cont}>
@@ -38,7 +48,7 @@ export default function Login() {
             placeholderTextColor={"white"}
           ></TextInput>
           <View style={styles.loginbtn}>
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity onPress={() => login()} style={styles.btn}>
               <Text style={styles.btntext}>login</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -115,7 +125,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   imagecontainer: {
-   
     alignSelf: "center",
     display: "flex",
     justifyContent: "center",
